@@ -36,6 +36,7 @@ import ScrollListener from "./ScrollListener.mjs";
 import Table from "./Table.mjs";
 
 import Page from "./Page.mjs";
+import Markdown from "./thirdparty/Markdown.mjs";
 
 let UIComponents = {
     page: Page,
@@ -63,6 +64,9 @@ let UIComponents = {
     'bs_faqslide': FaqSlide,
     'bs_badgeslist': BadgesList,
     'bs_popup': Popup,
+
+    //Thirdparty (require additional modules)
+    'markdown': Markdown
 
 
 }
