@@ -51,7 +51,7 @@ class Markdown extends _UIComponent {
         let attribStr = this.attributesObjectToStr(this.attrs, ['type']);
         return `
               <div id="${this.id}" ${attribStr}>
-                    ${this.converter.makeHtml(this._innerHTML.trim())}
+                    ${this.converter.makeHtml(this.normalizeIntents(this._innerHTML))}
             </div>`;
     }
 
@@ -63,7 +63,41 @@ class Markdown extends _UIComponent {
     async updateContent(value) {
         this._innerHTML = value;
         let html = await this.buildHtml();
-        this.domObject[0].outerHTML = html;
+        this.wrappedComponent.html(html);
+    }
+
+    /**
+     * Normalize input intents
+     * @param content
+     * @returns {string|*}
+     */
+    normalizeIntents(content) {
+        let splitted = content.split('\n');
+
+        if(splitted.length < 2) {
+            return content;
+        }
+
+
+        let intentCheckLine = splitted[0];
+        if(splitted[0].trim() === '' && splitted[1].trim() !== '') {
+            intentCheckLine = splitted[1];
+        }
+
+        let matches = intentCheckLine.match(/^\s+/);
+        let intent = matches ? matches[0].length : 0;
+
+        let final = '';
+        for (let line of splitted) {
+            if(line.trim() === '') {
+                final += '\n';
+            } else {
+                let rx = new RegExp('^\\\s{' + intent + '}', 'gm')
+                final += line.replace(rx, '') + '\n';
+            }
+        }
+
+        return final;
     }
 
     /**
@@ -79,8 +113,8 @@ class Markdown extends _UIComponent {
      * Get content
      * @returns {string}
      */
-    get content(){
-        return this._innerHTML.trim();
+    get content() {
+        return this.normalizeIntents(this._innerHTML);
     }
 
     /**
