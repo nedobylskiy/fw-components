@@ -17,6 +17,7 @@
  */
 
 import uiUtils from "../uiUtils.js";
+import EventEmitter3 from "../../thirdparty/EventEmitter3Resolve.mjs";
 
 /**
  * UI component abstract

@@ -4,6 +4,8 @@ import UIComponents from "./components/UIComponents.mjs";
 import Popups from "./helpers/popups.mjs";
 import $ from "./jQueryResolver.mjs"
 
+import EventEmitter3 from "../thirdparty/EventEmitter3Resolve.mjs";
+
 class AppPage extends EventEmitter3 {
 
     methods = {
@@ -124,7 +126,9 @@ class AppPage extends EventEmitter3 {
             firstLevelComponents.push(component);
         }
 
-        console.log(pageContainer, '>', firstLevelComponents);
+        if(this.options.verbose) {
+            console.log(pageContainer, '>', firstLevelComponents);
+        }
 
         let preparedComponents = [];
 
