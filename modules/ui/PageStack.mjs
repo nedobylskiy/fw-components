@@ -1,4 +1,4 @@
-import Page from "./Page.mjs";
+import Page from "./components/Page.mjs";
 import utils from "../utils.mjs";
 import $ from "./jQueryResolver.mjs"
 
