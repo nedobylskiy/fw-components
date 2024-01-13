@@ -147,11 +147,14 @@ class AppPage extends EventEmitter3 {
 
             if(componentClass) {
                 let newComponentId = componentType + '_' + utils.randomId();
+                /** @type _UIComponent */
                 let newComponent = new componentClass(this.id, component, newComponentId, this, this.pageObject);
 
                 newComponent.parent = parentComponent;
+                newComponent.app = this;
 
                 let componentName = await newComponent.init();
+                await newComponent.afterInit();
 
                 this.componentsById[newComponentId] = newComponent;
                 this.components[componentName] = newComponent;
@@ -201,7 +204,10 @@ class AppPage extends EventEmitter3 {
      * @returns {string}
      */
     constructComponent(type, options = {disabled: false}, innerHtml = '') {
-        let componentCode = `<fw-component type="${type}"`
+
+        return UIComponents.constructComponent(type, options, innerHtml);
+
+       /* let componentCode = `<fw-component type="${type}"`
         for (let attribute in options) {
             if(typeof options[attribute] === 'object') {
                 componentCode += ` ${attribute}='${JSON.stringify(options[attribute])}' `;
@@ -210,7 +216,7 @@ class AppPage extends EventEmitter3 {
             }
         }
         componentCode += `>${innerHtml}</fw-component>`;
-        return componentCode
+        return componentCode*/
     }
 
     /**

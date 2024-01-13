@@ -37,28 +37,6 @@ const utils = {
         }
         return result;
     },
-    EMPTY_TON_ADDRESS: '0:0000000000000000000000000000000000000000000000000000000000000000',
-    /**
-     * Transfer hack ABI
-     */
-    TRANSFER_BODY: {
-        "ABI version": 2,
-        "functions": [
-            {
-                "name": "transfer",
-                "id": "0x00000000",
-                "inputs": [
-                    {
-                        "name": "pubkey",
-                        "type": "uint256"
-                    }
-                ],
-                "outputs": []
-            }
-        ],
-        "events": [],
-        "data": []
-    },
 
     /**
      * Big hex string to big dec string

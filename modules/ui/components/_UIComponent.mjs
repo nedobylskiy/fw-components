@@ -1,29 +1,35 @@
 /*
-  ______ _____
- |  ____|  __ \
- | |__  | |__) |_ _  __ _  ___
- |  __| |  ___/ _` |/ _` |/ _ \
- | |    | |  | (_| | (_| |  __/
- |_|    |_|   \__,_|\__, |\___|
-                     __/ |
-                    |___/
+  ________          _______
+ |  ____\ \        / / ____|
+ | |__   \ \  /\  / / |
+ |  __|   \ \/  \/ /| |
+ | |       \  /\  / | |____
+ |_|        \/  \/   \_____|
+
+ */
+/**
+ * @name FW-Components
+ * @author Andrei Nedobylskii
  */
 
-/**
- * @name FPage framework
- * @copyright SVOI.dev Labs - https://svoi.dev
- * @license Apache-2.0
- * @version 1.0
- */
 
 import uiUtils from "../uiUtils.js";
 import EventEmitter3 from "../../thirdparty/EventEmitter3Resolve.mjs";
+import UIComponents from "./UIComponents.mjs";
 
 /**
  * UI component abstract
  * @abstract
  */
 class _UIComponent extends EventEmitter3 {
+    /**
+     *
+     * @param {string} pageId
+     * @param {object} domObject
+     * @param {string} id
+     * @param {AppPage} page
+     * @param {object} pageScript
+     */
     constructor(pageId, domObject, id, page, pageScript = {methods: {}}) {
         super();
         this.pageId = pageId;
@@ -37,6 +43,8 @@ class _UIComponent extends EventEmitter3 {
         this._visible = true;
         this.wrappedComponent = null;
         this.components = {};
+        /** @type {AppPage} */
+        this.app = null;
         // this.parent = null;
     }
 
@@ -45,12 +53,29 @@ class _UIComponent extends EventEmitter3 {
      * @returns {Promise<_UIComponent>}
      */
     async init() {
+
+
+
         //await this.initializeInternalComponents();
         return this;
     }
 
+    /**
+     * After main initialization
+     * @returns {Promise<void>}
+     */
+    async afterInit() {
+        //Setup attributes
+        for (let attribute in this.attrs) {
+            if (this[attribute]) {
+                this[attribute] = this.attrs[attribute];
+            }
+        }
+
+    }
+
     async initializeInternalComponents() {
-        if(this.wrappedComponent) {
+        if (this.wrappedComponent) {
             let preparedComponents = await this.page.initializeComponents(this.wrappedComponent, this);
             this._childComponents = preparedComponents;
 
@@ -93,23 +118,32 @@ class _UIComponent extends EventEmitter3 {
      * @returns {Promise<*>}
      */
     async runBindedEvent(event, params = [], that = this) {
-        if(this.attributes['@' + event]) {
+
+        //Run binded event
+        if (this.attributes['@' + event]) {
             let method = this.attributes['@' + event].value;
 
             //Inherit event passing
-            if(method === '^'){
+            if (method === '^') {
                 this.emit(event, ...params);
                 return true;
             }
 
             //Call methods if exists
-            if(this.parent.methods[method]) {
+            if (this.parent.methods[method]) {
                 return await this.parent.methods[method](...params);
             } else {
-                if(this.parent[method]) {
+                if (this.parent[method]) {
                     return await this.parent[method](...params);
                 }
             }
+        }
+
+        //Run inline code
+        if (this.attrs['#' + event]) {
+            let code = this.attrs['#' + event];
+            let method = new Function('return ' + code);
+            return await method.apply(this, params);
         }
     }
 
@@ -126,8 +160,11 @@ class _UIComponent extends EventEmitter3 {
      * @param boolVal
      */
     set disabled(boolVal) {
+        if (['true', 'false'].includes(boolVal.toLowerCase())) {
+            boolVal = boolVal.toLowerCase() === 'true';
+        }
         this._disabled = boolVal;
-        if(boolVal) {
+        if (boolVal) {
             $(`#${this.id}`).addClass('disabled');
         } else {
             $(`#${this.id}`).removeClass('disabled');
@@ -147,8 +184,11 @@ class _UIComponent extends EventEmitter3 {
      * @param boolVal
      */
     set visible(boolVal) {
+        if (['true', 'false'].includes(boolVal.toLowerCase())) {
+            boolVal = boolVal.toLowerCase() === 'true';
+        }
         this._visible = boolVal;
-        if(boolVal) {
+        if (boolVal) {
             this.wrappedComponent.show();
         } else {
             this.wrappedComponent.hide();
@@ -164,11 +204,11 @@ class _UIComponent extends EventEmitter3 {
     attributesObjectToStr(attributesOBJ, excludeList = []) {
         let attributes = ``;
         for (let attr in attributesOBJ) {
-            if(excludeList.includes(attr)) {
+            if (excludeList.includes(attr)) {
                 continue;
             }
 
-            if(attr.includes('@')) {
+            if (attr.includes('@')) {
                 continue;
             }
 
@@ -202,6 +242,27 @@ class _UIComponent extends EventEmitter3 {
                 this.wrappedComponent.val(value);
             },
         });
+    }
+
+    /**
+     * Construct component code
+     * @param {object|undefined} attributes Component attributes
+     * @param {string|undefined} innerHtml Inner HTML (may contain other components)
+     * @returns {string}
+     */
+    static construct(attributes = undefined, innerHtml = '') {
+        let type = this.name.toLowerCase();
+
+        return UIComponents.constructComponent(type, attributes, innerHtml);
+
+    }
+
+    /**
+     * Register component
+     * @returns {Promise<void>}
+     */
+    static async register() {
+        return await UIComponents.registerUIComponent(this.name.toLowerCase(), this);
     }
 
 }

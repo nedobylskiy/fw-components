@@ -37,6 +37,7 @@ import Table from "./Table.mjs";
 
 import Page from "./Page.mjs";
 import Markdown from "./thirdparty/Markdown.mjs";
+import Reusable from "./Reusable.mjs";
 
 let UIComponents = {
     page: Page,
@@ -49,6 +50,7 @@ let UIComponents = {
     templateloader: TemplateLoader,
     scrolllistener: ScrollListener,
     table: Table,
+    reusable: Reusable,
 
 
     //Bootstrap
@@ -73,7 +75,27 @@ let UIComponents = {
 
 //Register new component
 UIComponents.registerUIComponent = async (name, component) => {
-    UIComponents[name] = component;
+    UIComponents[name.toLowerCase()] = component;
+}
+
+/**
+ * Construct page component code
+ * @param {string} type
+ * @param {object} options
+ * @param {string} innerHtml
+ * @returns {string}
+ */
+UIComponents.constructComponent = (type, options = {disabled: false}, innerHtml = '') => {
+    let componentCode = `<fw-component type="${type}"`
+    for (let attribute in options) {
+        if(typeof options[attribute] === 'object') {
+            componentCode += ` ${attribute}='${JSON.stringify(options[attribute])}' `;
+        } else {
+            componentCode += ` ${attribute}=${JSON.stringify(options[attribute])} `;
+        }
+    }
+    componentCode += `>${innerHtml}</fw-component>`;
+    return componentCode
 }
 
 export default UIComponents;
