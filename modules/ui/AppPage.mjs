@@ -135,31 +135,41 @@ class AppPage extends EventEmitter3 {
         for (let component of firstLevelComponents) {
             component = $(component);
 
+            try {
 
-            let componentType = component.attr('component').toLowerCase();
+                let componentType = '';
+                try {
+                    componentType = component.attr('component').toLowerCase();
+                } catch (e) {
+                    console.log('FWC Page: Parsing error: No "component" attribute found for ', component);
+                    componentType = 'holder';
+                }
 
-            let componentClass = UIComponents[componentType];
+                let componentClass = UIComponents[componentType];
 
-            if (!componentClass) {
-                console.log('FWC Page: Parsing error: Component', componentType, 'not found');
-                componentClass = UIComponents['holder'];
-            }
+                if (!componentClass) {
+                    console.log('FWC Page: Parsing error: Component', componentType, 'not found');
+                    componentClass = UIComponents['holder'];
+                }
 
-            if (componentClass) {
-                let newComponentId = componentType + '_' + utils.randomId();
-                /** @type _UIComponent */
-                let newComponent = new componentClass(this.id, component, newComponentId, this, this.pageObject);
+                if (componentClass) {
+                    let newComponentId = componentType + '_' + utils.randomId();
+                    /** @type _UIComponent */
+                    let newComponent = new componentClass(this.id, component, newComponentId, this, this.pageObject);
 
-                newComponent.parent = parentComponent;
-                newComponent.app = this;
+                    newComponent.parent = parentComponent;
+                    newComponent.app = this;
 
-                let componentName = await newComponent.init();
-                await newComponent.afterInit();
+                    let componentName = await newComponent.init();
+                    await newComponent.afterInit();
 
-                this.componentsById[newComponentId] = newComponent;
-                this.components[componentName] = newComponent;
+                    this.componentsById[newComponentId] = newComponent;
+                    this.components[componentName] = newComponent;
 
-                preparedComponents.push(newComponent);
+                    preparedComponents.push(newComponent);
+                }
+            } catch (e) {
+                console.log('FWC Page: Parsing error:', e);
             }
         }
 

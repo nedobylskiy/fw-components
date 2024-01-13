@@ -36,20 +36,6 @@ class _PopUP extends _UIComponent {
         return await super.destroy();
     }
 
-    /**
-     * Run binded event method
-     * @param event
-     * @param params
-     * @returns {Promise<*>}
-     */
-    async runBindedEvent(event, params = []) {
-        if(this.attributes['@' + event]) {
-            let method = this.attributes['@' + event].value;
-            if(this.pageScript.methods[method]) {
-                return await this.pageScript.methods[method](...params);
-            }
-        }
-    }
 
     /**
      * Run popup

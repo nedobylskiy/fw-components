@@ -14,6 +14,7 @@
 
 import _UIComponent from "../_UIComponent.mjs";
 import uiUtils from "../../uiUtils.js";
+import UIComponents from "../UIComponents.mjs";
 
 class Button extends _UIComponent {
 

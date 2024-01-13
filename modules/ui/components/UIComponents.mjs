@@ -55,7 +55,9 @@ let UIComponents = {
 
     //Bootstrap
     'bs_button': Button,
+    'button': Button,
     'bs_primarybutton': PrimaryButton,
+    'primarybutton': PrimaryButton,
     'bs_textinput': TextInput,
     'bs_foldablebox': FoldableBox,
     'bs_captionedbox': CaptionedBox,

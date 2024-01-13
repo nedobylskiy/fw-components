@@ -136,6 +136,8 @@ class _UIComponent extends EventEmitter3 {
      */
     async runBindedEvent(event, params = [], that = this) {
 
+        event = event.toLowerCase();
+
         //Run binded event
         if (this.attributes['@' + event]) {
             let method = this.attributes['@' + event].value;
