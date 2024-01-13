@@ -17,6 +17,16 @@ class ToDoList extends _Renderable {
         console.log(item);
         await this.appendComponent(item);
     }
+
+    async getItems() {
+        return await this.findComponentsByType(ToDoElement);
+    }
+
+    async getCaptions(){
+        let items = await this.getItems();
+        return items.map(item => item.caption);
+    }
+
 }
 
 //Register component

@@ -24,15 +24,15 @@
 
     <fw-component component="page" name="startPage" class="col-12 row">
         <fw-component component="ToDoList" name="todoList">
-            <fw-component component="ToDoElement" caption="List item 1"></fw-component>
-            <fw-component component="ToDoElement" caption="List item 2"></fw-component>
+            <fw-component component="ToDoElement" caption="List item 1" #destroy="console.log(this)"></fw-component>
+            <fw-component component="ToDoElement" caption="List item 2" #destroy="console.log(this)"></fw-component>
         </fw-component>
 
         <div class="col-12 row addItemInputHolder">
             <div class="col-10">
                 <fw-component component="bs_textinput"  name="newItemCaption" placeholder="What to ToDo list?"></fw-component>
             </div>
-            <fw-component component="bs_button" class="btn-primary col-2" #click="this.page.components.todoList.addItem(this.page.components.newItemCaption.value); this.page.components.newItemCaption.value='321';">Add</fw-component>
+            <fw-component component="bs_button" class="btn-primary col-2" #click="this.page.components.todoList.addItem(this.page.components.newItemCaption.value); this.page.components.newItemCaption.value='';">Add</fw-component>
         </div>
 
     </fw-component>

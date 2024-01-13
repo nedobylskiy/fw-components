@@ -45,6 +45,7 @@ class _UIComponent extends EventEmitter3 {
         this.components = {};
         /** @type {AppPage} */
         this.app = null;
+        this._childComponents = [];
         // this.parent = null;
     }
 
@@ -81,7 +82,7 @@ class _UIComponent extends EventEmitter3 {
     async initializeInternalComponents() {
         if (this.wrappedComponent) {
             let preparedComponents = await this.page.initializeComponents(this.wrappedComponent, this);
-            this._childComponents = preparedComponents;
+            this._childComponents = [...this._childComponents, ...preparedComponents];
 
             for (let component of preparedComponents) {
                 this.components[component.name] = component;
@@ -103,15 +104,27 @@ class _UIComponent extends EventEmitter3 {
      * @returns {Promise<void>}
      */
     async destroy() {
+
+        await this.page.removeComponentLinksByNameOrId(this.name);
+
+        if (this.parent) {
+            await this.parent.removeChildComponentLinksByNameOrId(this.name);
+        }
+
         try {
             this.domObject.remove();
         } catch (e) {
         }
         try {
-            console.log('DESTROY', this.wrappedComponent);
+            // console.log('DESTROY', this.wrappedComponent);
             this.wrappedComponent.remove();
         } catch (e) {
         }
+
+
+        await this.runBindedEvent('destroy', [this]);
+
+        this.emit('destroy', this);
     }
 
     /**
@@ -146,7 +159,7 @@ class _UIComponent extends EventEmitter3 {
         //Run inline code
         if (this.attrs['#' + event]) {
             let code = this.attrs['#' + event];
-            let method = new Function('return ' + code);
+            let method = new Function('return (()=>{' + code + '})()');
             return await method.apply(this, params);
         }
     }
@@ -249,6 +262,50 @@ class _UIComponent extends EventEmitter3 {
     }
 
     /**
+     * Returns components as array
+     * @returns {Promise<[_UIComponent]>}
+     */
+    async getComponents() {
+        return this._childComponents;
+    }
+
+    /**
+     * Find component by name
+     * @param {_UIComponent|string} type
+     * @returns {Promise<*[_UIComponent]>}
+     */
+    async findComponentsByType(type) {
+        if (typeof type !== 'string') {
+            type = type.name || type.constructor.name;
+        }
+        type = type.toLowerCase();
+        let components = [];
+        for (let component of this._childComponents) {
+            if (component.constructor.name.toLowerCase() === type) {
+                components.push(component);
+            }
+        }
+        return components;
+    }
+
+    /**
+     * Remove child links by name or id
+     * @param {string} nameOrId
+     * @returns {Promise<void>}
+     */
+    async removeChildComponentLinksByNameOrId(nameOrId) {
+        if (this.components[nameOrId]) {
+            delete this.components[nameOrId];
+        }
+
+        for (let i = 0; i < this._childComponents.length; i++) {
+            if (this._childComponents[i].name === nameOrId || this._childComponents[i].id === nameOrId) {
+                this._childComponents.splice(i, 1);
+            }
+        }
+    }
+
+    /**
      * Construct component code
      * @param {object|undefined} attributes Component attributes
      * @param {string|undefined} innerHtml Inner HTML (may contain other components)
@@ -268,6 +325,7 @@ class _UIComponent extends EventEmitter3 {
     static async register() {
         return await UIComponents.registerUIComponent(this.name.toLowerCase(), this);
     }
+
 
 }
 
