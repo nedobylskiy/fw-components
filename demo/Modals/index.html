@@ -13,7 +13,7 @@
 <div id="app">
 
     <fw-component component="page" name="startPage" class="col-12 row">
-        <fw-component component="bs_button" class="btn-primary col-2" #click="">Show modal</fw-component>
+        <fw-component component="bs_button" class="btn-primary col-2" #click="this.page.components.testModal.show()">Show modal</fw-component>
 
         <fw-component component="bs_popup" name="testModal" caption="Test modal" rightButton="Cancel" #close="console.log(this)" #rightButtonClick="this.close()">
             <h1>Hello. I am modal content</h1>

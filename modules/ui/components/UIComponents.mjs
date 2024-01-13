@@ -38,6 +38,7 @@ import Table from "./Table.mjs";
 import Page from "./Page.mjs";
 import Markdown from "./thirdparty/Markdown.mjs";
 import Reusable from "./Reusable.mjs";
+import $ from "../jQueryResolver.mjs";
 
 let UIComponents = {
     page: Page,
@@ -102,6 +103,15 @@ UIComponents.constructComponent = (type, options = {disabled: false}, innerHtml 
     }
     componentCode += `>${innerHtml}</fw-component>`;
     return componentCode
+}
+/**
+ * Append css to page
+ * @param {string} css
+ * @returns {Promise<void>}
+ */
+UIComponents.appendCss = (css) => {
+    $('style.fwc-page-style').length === 0 && $('head').append('<style class="fwc-page-style"></style>');
+    $('style.fwc-page-style').append(css);
 }
 
 export default UIComponents;

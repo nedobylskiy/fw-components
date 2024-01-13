@@ -31,4 +31,11 @@ class ToDoList extends _Renderable {
 //Register component
 await UIComponents.registerUIComponent(ToDoList);
 
+//Register component CSS
+await UIComponents.appendCss(`
+        [component="ToDoElement"],[component="todoelement"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }`);
+
 export default ToDoList;

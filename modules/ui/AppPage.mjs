@@ -283,6 +283,8 @@ class AppPage extends EventEmitter3 {
     async removeComponent(component) {
         return await component.destroy();
     }
+
+
 }
 
 export default AppPage;
