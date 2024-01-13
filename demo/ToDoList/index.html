@@ -3,15 +3,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FW-Components Demo</title>
+    <title>FW-Components Demo ToDo list</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+
+    <style>
+        [component="ToDoElement"],[component="todoelement"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .addItemInputHolder{
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
 <div id="app">
 
     <fw-component component="page" name="startPage" class="col-12 row">
-        <fw-component component="AutoCustomComponent"></fw-component>
+        <fw-component component="ToDoList" name="todoList">
+            <fw-component component="ToDoElement" caption="List item 1" #destroy="console.log(this)"></fw-component>
+            <fw-component component="ToDoElement" caption="List item 2" #destroy="console.log(this)"></fw-component>
+        </fw-component>
+
+        <div class="col-12 row addItemInputHolder">
+            <div class="col-10">
+                <fw-component component="bs_textinput"  name="newItemCaption" placeholder="What to ToDo list?"></fw-component>
+            </div>
+            <fw-component component="bs_button" class="btn-primary col-2" #click="this.page.components.todoList.addItem(this.page.components.newItemCaption.value); this.page.components.newItemCaption.value='';">Add</fw-component>
+        </div>
 
     </fw-component>
 
