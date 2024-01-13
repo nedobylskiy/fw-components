@@ -55,9 +55,13 @@ class _UIComponent extends EventEmitter3 {
     async init() {
 
 
+        this.name = this.attrs.name ? this.attrs.name : this.id;
+
+
+        return this.name;
 
         //await this.initializeInternalComponents();
-        return this;
+        //return this;
     }
 
     /**

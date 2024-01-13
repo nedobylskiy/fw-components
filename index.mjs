@@ -21,12 +21,13 @@ import uiUtils from "./modules/ui/uiUtils.js";
 import PageStack from "./modules/ui/PageStack.mjs";
 import UIComponents from "./modules/ui/components/UIComponents.mjs";
 import _UIComponent from "./modules/ui/components/_UIComponent.mjs";
+import _Renderable from "./modules/ui/components/_Renderable.mjs";
 
 export default AppPage;
-export {uiUtils, PageStack, UIComponents, _UIComponent};
+export {uiUtils, PageStack, UIComponents, _UIComponent, _Renderable};
 
-if(window){
-    if(!window.FWC){
+if (window) {
+    if (!window.FWC) {
         window.FWC = {
             AppPage,
             uiUtils,

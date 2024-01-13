@@ -1,4 +1,4 @@
-import AppPage from "../modules/ui/AppPage.mjs";
+import AppPage from "../../modules/ui/AppPage.mjs";
 import CustomComponent from "./CustomComponent.mjs";
 
 let app = new AppPage($('#app'));

@@ -75,6 +75,10 @@ let UIComponents = {
 
 //Register new component
 UIComponents.registerUIComponent = async (name, component) => {
+    if (typeof name !== 'string') {
+        component = name;
+        name = component.name;
+    }
     UIComponents[name.toLowerCase()] = component;
 }
 
@@ -86,9 +90,9 @@ UIComponents.registerUIComponent = async (name, component) => {
  * @returns {string}
  */
 UIComponents.constructComponent = (type, options = {disabled: false}, innerHtml = '') => {
-    let componentCode = `<fw-component type="${type}"`
+    let componentCode = `<fw-component component="${type}"`
     for (let attribute in options) {
-        if(typeof options[attribute] === 'object') {
+        if (typeof options[attribute] === 'object') {
             componentCode += ` ${attribute}='${JSON.stringify(options[attribute])}' `;
         } else {
             componentCode += ` ${attribute}=${JSON.stringify(options[attribute])} `;

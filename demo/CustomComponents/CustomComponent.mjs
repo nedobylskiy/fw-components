@@ -1,4 +1,4 @@
-import _Renderable from "../modules/ui/components/_Renderable.mjs";
+import _Renderable from "../../modules/ui/components/_Renderable.mjs";
 
 class CustomComponent extends _Renderable {
 
@@ -9,7 +9,7 @@ class CustomComponent extends _Renderable {
         let attribStr = this.attributesObjectToStr(this.attrs, ['type']);
         return `
               <div id="${this.id}" ${attribStr}>
-                    <h2>I am a custom component</h2>
+                    <h2>I am a custom component!</h2>
             </div>`;
     }
 }

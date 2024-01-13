@@ -23,11 +23,15 @@ class _Renderable extends _UIComponent {
 
     /**
      * Initialize UI component
+     * @param {string|false|undefined} innerHtml
      * @returns {Promise<_UIComponent>}
      */
-    async init() {
+    async init(innerHtml = false) {
         await super.init();
-        return this;
+        if (!innerHtml) {
+            this._innerHTML = this.domObject.html();
+        }
+        return this.name;
     }
 
     /**
@@ -63,6 +67,13 @@ class _Renderable extends _UIComponent {
             this.domObject[0].outerHTML = await this.buildHtml();
             this.wrappedComponent = $('#' + this.id);
         }
+
+        await this.initializeInternalComponents();
+    }
+
+    async appendComponent(component) {
+        this.wrappedComponent.append(component);
+        await this.initializeInternalComponents();
     }
 
 }

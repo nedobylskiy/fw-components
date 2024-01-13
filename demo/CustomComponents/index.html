@@ -10,23 +10,10 @@
 <body>
 <div id="app">
 
-    <fw-component component="reusable" name="testReusable">
-        <h1>Hello! I'm reusable</h1>
-        <fw-component component="bs_button" class="btn-primary col-2" name="button" #click="this.parent.components.counter.caption--">-</fw-component>
-        <fw-component component="caption" name="counter" class="col-4" style="text-align: center">0</fw-component>
-        <fw-component component="bs_button" class="btn-primary col-2" name="button" #click="this.parent.components.counter.caption++">+</fw-component>
-    </fw-component>
-
     <fw-component component="page" name="startPage" class="col-12 row">
         <h1>Hello</h1>
 
-        <fw-component component="testReusable"></fw-component>
-        <fw-component component="testReusable"></fw-component>
         <fw-component component="customComponent"></fw-component>
-
-        <fw-component component="bs_button" class="btn-primary col-2" name="button" #click="this.page.components.counter.caption--">-</fw-component>
-        <fw-component component="caption" name="counter" class="col-4" style="text-align: center">0</fw-component>
-        <fw-component component="bs_button" class="btn-primary col-2" name="button" #click="this.page.components.counter.caption++">+</fw-component>
 
     </fw-component>
 
