@@ -23,7 +23,16 @@ const Processors = {
         if (typeof arr === 'string')
             return arr.charAt(arr.length - 1);
         return arr[arr.length - 1];
+    }
+}
+
+const TaggedTemplates = {
+    raw: (strings, ...values) => {
+        return String.raw({raw: strings}, ...values);
     },
+    html(strings, ...values) {
+        return String.raw({raw: strings}, ...values);
+    }
 }
 
 /**
@@ -77,7 +86,7 @@ class StringProcessor {
 }
 
 export default Processors;
-export {Processors, StringProcessor};
+export {Processors, StringProcessor, TaggedTemplates};
 
 export const escape = Processors.escape;
 export const e = Processors.escape;
@@ -91,3 +100,5 @@ export const first = Processors.first;
 export const last = Processors.last;
 
 export const p = StringProcessor.create;
+
+export const html = TaggedTemplates.html;
