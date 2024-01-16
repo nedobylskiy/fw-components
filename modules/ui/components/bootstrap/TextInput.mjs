@@ -22,7 +22,7 @@ class TextInput extends _UIComponent {
      * @returns {Promise<void>}
      */
     async init() {
-        console.log('Init text input', this.domObject, this.pageId);
+        //console.log('Init text input', this.domObject, this.pageId);
 
 
         this._caption = this.domObject.html();

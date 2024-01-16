@@ -22,10 +22,12 @@ class Holder extends _UIComponent {
      * Initialize holder
      * @returns {Promise<void>}
      */
-    async init() {
+    async init(innerHtml = null) {
         await super.init();
 
-        this._innerHTML = this.domObject.html();
+        if(!innerHtml) {
+            this._innerHTML = this.domObject.html();
+        }
 
         this.name = this.attributes.name ? this.attributes.name.value : this.id;
 

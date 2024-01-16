@@ -37,6 +37,8 @@ import Table from "./Table.mjs";
 
 import Page from "./Page.mjs";
 import Markdown from "./thirdparty/Markdown.mjs";
+import Reusable from "./Reusable.mjs";
+import $ from "../jQueryResolver.mjs";
 
 let UIComponents = {
     page: Page,
@@ -49,11 +51,14 @@ let UIComponents = {
     templateloader: TemplateLoader,
     scrolllistener: ScrollListener,
     table: Table,
+    reusable: Reusable,
 
 
     //Bootstrap
     'bs_button': Button,
+    'button': Button,
     'bs_primarybutton': PrimaryButton,
+    'primarybutton': PrimaryButton,
     'bs_textinput': TextInput,
     'bs_foldablebox': FoldableBox,
     'bs_captionedbox': CaptionedBox,
@@ -73,7 +78,40 @@ let UIComponents = {
 
 //Register new component
 UIComponents.registerUIComponent = async (name, component) => {
-    UIComponents[name] = component;
+    if (typeof name !== 'string') {
+        component = name;
+        name = component.name;
+    }
+    UIComponents[name.toLowerCase()] = component;
+}
+
+/**
+ * Construct page component code
+ * @param {string} type
+ * @param {object} options
+ * @param {string} innerHtml
+ * @returns {string}
+ */
+UIComponents.constructComponent = (type, options = {disabled: false}, innerHtml = '') => {
+    let componentCode = `<fw-component component="${type}"`
+    for (let attribute in options) {
+        if (typeof options[attribute] === 'object') {
+            componentCode += ` ${attribute}='${JSON.stringify(options[attribute])}' `;
+        } else {
+            componentCode += ` ${attribute}=${JSON.stringify(options[attribute])} `;
+        }
+    }
+    componentCode += `>${innerHtml}</fw-component>`;
+    return componentCode
+}
+/**
+ * Append css to page
+ * @param {string} css
+ * @returns {Promise<void>}
+ */
+UIComponents.appendCss = (css) => {
+    $('style.fwc-page-style').length === 0 && $('head').append('<style class="fwc-page-style"></style>');
+    $('style.fwc-page-style').append(css);
 }
 
 export default UIComponents;

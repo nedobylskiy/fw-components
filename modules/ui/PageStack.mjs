@@ -1,10 +1,14 @@
-import Page from "./Page.mjs";
+import Page from "./components/Page.mjs";
 import utils from "../utils.mjs";
 import $ from "./jQueryResolver.mjs"
 
+import EventEmitter3 from "../thirdparty/EventEmitter3Resolve.mjs";
+
 class PageStack extends EventEmitter3 {
-    constructor(pageContentHolder, options = {}) {
-        console.log('PageStack start', pageContentHolder);
+    constructor(pageContentHolder, options = {verbose: false}) {
+        if(options.verbose) {
+            console.log('PageStack start', pageContentHolder);
+        }
         super();
         this.pageContentHolder = $(pageContentHolder);
         this.pageContentHolder.html('');
@@ -47,8 +51,10 @@ class PageStack extends EventEmitter3 {
 
         let scrollY = window.scrollY;
 
-        console.log('PageStack: Start load page');
-        console.time('load page');
+        if(this.options.verbose) {
+            console.log('PageStack: Start load page');
+            console.time('load page');
+        }
 
         let pageId = "page_" + utils.randomId();
 
@@ -84,10 +90,14 @@ class PageStack extends EventEmitter3 {
             }, '', `/${controller}/${action}`);
         }
 
-        console.log('Scroll Y', scrollY)
+        if(this.options.verbose) {
+            console.log('Scroll Y', scrollY)
+        }
         window.scroll(0, 0);
 
-        console.timeEnd('load page');
+        if(this.options.verbose) {
+            console.timeEnd('load page');
+        }
 
         return {...pageObj, components: pageObj.page.components};
     }
