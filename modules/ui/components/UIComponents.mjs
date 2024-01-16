@@ -39,6 +39,7 @@ import Page from "./Page.mjs";
 import Markdown from "./thirdparty/Markdown.mjs";
 import Reusable from "./Reusable.mjs";
 import $ from "../jQueryResolver.mjs";
+import Href from "./bootstrap/Href.mjs";
 
 let UIComponents = {
     page: Page,
@@ -52,6 +53,7 @@ let UIComponents = {
     scrolllistener: ScrollListener,
     table: Table,
     reusable: Reusable,
+    href: Href,
 
 
     //Bootstrap

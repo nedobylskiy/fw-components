@@ -22,10 +22,20 @@ import PageStack from "./modules/ui/PageStack.mjs";
 import UIComponents from "./modules/ui/components/UIComponents.mjs";
 import _UIComponent from "./modules/ui/components/_UIComponent.mjs";
 import _Renderable from "./modules/ui/components/_Renderable.mjs";
-import {Processors, StringProcessor} from "./modules/ui/helpers/Processors.mjs";
+import {Processors, StringProcessor, TaggedTemplates} from "./modules/ui/helpers/Processors.mjs";
 
 export default AppPage;
-export {AppPage, uiUtils, PageStack, UIComponents, _UIComponent, _Renderable, Processors, StringProcessor};
+export {
+    AppPage,
+    uiUtils,
+    PageStack,
+    UIComponents,
+    _UIComponent,
+    _Renderable,
+    Processors,
+    StringProcessor,
+    TaggedTemplates
+};
 
 if (window) {
     if (!window.FWC) {
@@ -37,7 +47,8 @@ if (window) {
             _UIComponent,
             _Renderable,
             Processors,
-            StringProcessor
+            StringProcessor,
+            TaggedTemplates
         }
     }
 }
