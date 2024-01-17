@@ -40,6 +40,7 @@ import Markdown from "./thirdparty/Markdown.mjs";
 import Reusable from "./Reusable.mjs";
 import $ from "../jQueryResolver.mjs";
 import Href from "./bootstrap/Href.mjs";
+import AppStateView from "./AppStateView.mjs";
 
 let UIComponents = {
     page: Page,
@@ -54,6 +55,7 @@ let UIComponents = {
     table: Table,
     reusable: Reusable,
     href: Href,
+    appstateview: AppStateView,
 
 
     //Bootstrap

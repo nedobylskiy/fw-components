@@ -1,15 +1,15 @@
 /*
-  ________          _______ 
+  ________          _______
  |  ____\ \        / / ____|
- | |__   \ \  /\  / / |     
- |  __|   \ \/  \/ /| |     
- | |       \  /\  / | |____ 
+ | |__   \ \  /\  / / |
+ |  __|   \ \/  \/ /| |
+ | |       \  /\  / | |____
  |_|        \/  \/   \_____|
-                                              
+
  */
 /**
  * @name FW-Components
- * @author Andrei Nedobylskii 
+ * @author Andrei Nedobylskii
  */
 
 import _UIComponent from "./_UIComponent.mjs";
@@ -45,6 +45,8 @@ class StateView extends _UIComponent {
 
         await this.setState(this._state);
 
+        await this.initializeInternalComponents();
+
         return this.name;
     }
 
@@ -66,6 +68,9 @@ class StateView extends _UIComponent {
 
         for (let elState of states) {
             elState = $(elState);
+            if(elState.parent().attr('id') !== this.id) {
+                continue;
+            }
             let activeStates = $(elState).attr('activeStates').split(',');
             if(activeStates.includes(state) || activeStates.includes('*')) {
                 elState.show();
