@@ -191,7 +191,7 @@ class _UIComponent extends EventEmitter3 {
         //Run inline code
         if (this.attrs['#' + event]) {
             let code = this.attrs['#' + event];
-            let method = new Function('return (()=>{' + code + '})()');
+            let method = new Function('return (async ()=>{' + code + '})()');
             return await method.apply(this, params);
         }
     }
