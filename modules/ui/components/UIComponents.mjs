@@ -41,6 +41,7 @@ import Reusable from "./Reusable.mjs";
 import $ from "../jQueryResolver.mjs";
 import Href from "./bootstrap/Href.mjs";
 import AppStateView from "./AppStateView.mjs";
+import NumberInput from "./bootstrap/NumberInput.mjs";
 
 let UIComponents = {
     page: Page,
@@ -64,6 +65,8 @@ let UIComponents = {
     'bs_primarybutton': PrimaryButton,
     'primarybutton': PrimaryButton,
     'bs_textinput': TextInput,
+    'bs_numberinput': NumberInput,
+    'numberinput': NumberInput,
     'bs_foldablebox': FoldableBox,
     'bs_captionedbox': CaptionedBox,
     'bs_checkbox': Checkbox,

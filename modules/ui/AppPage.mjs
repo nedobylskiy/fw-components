@@ -42,6 +42,9 @@ class AppPage extends EventEmitter3 {
         this.componentsById = {};
 
         this.state = new AppState();
+        this.state.onChange((key, value, fullState) => {
+            this.emit('stateChange', key, value, fullState);
+        });
     }
 
     /**

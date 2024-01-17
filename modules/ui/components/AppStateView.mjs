@@ -31,7 +31,7 @@ class AppStateView extends StateView {
         this.subscribe = this.attrs.subscribe ? this.attrs.subscribe : false;
 
         if (this.subscribe) {
-            this.page.state.onChange(async (key, value, fullState) => {
+            this.page.on('stateChange', async (key, value, fullState) => {
                 if (key !== this.subscribe) {
                     return;
                 }
