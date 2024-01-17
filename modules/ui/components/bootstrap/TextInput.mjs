@@ -54,10 +54,10 @@ class TextInput extends _UIComponent {
             await this.runBindedEvent('keyup', [this, this.wrappedComponent.val()]);
             this.emit('keyup', this, this.wrappedComponent.val());
         })
-        this.wrappedComponent.on('keyup', async () => {
+        this.wrappedComponent.on('keydown', async () => {
             //Run @click methods
             await this.runBindedEvent('keydown', [this, this.wrappedComponent.val()]);
-            this.emit('keyup', this, this.wrappedComponent.val());
+            this.emit('keydown', this, this.wrappedComponent.val());
         })
 
         return this.name;
