@@ -5,6 +5,7 @@ import Popups from "./helpers/popups.mjs";
 import $ from "./jQueryResolver.mjs"
 
 import EventEmitter3 from "../thirdparty/EventEmitter3Resolve.mjs";
+import AppState from "../system/AppState.mjs";
 
 class AppPage extends EventEmitter3 {
 
@@ -39,6 +40,11 @@ class AppPage extends EventEmitter3 {
 
         this.components = {};
         this.componentsById = {};
+
+        this.state = new AppState();
+        this.state.onChange((key, value, fullState) => {
+            this.emit('stateChange', key, value, fullState);
+        });
     }
 
     /**

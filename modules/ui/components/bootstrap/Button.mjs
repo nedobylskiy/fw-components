@@ -24,6 +24,7 @@ class Button extends _UIComponent {
      * @returns {Promise<void>}
      */
     async init() {
+        await super.init();
         this._caption = this.domObject.html();
 
         this.name = this.attributes.name ? this.attributes.name.value : this.id;

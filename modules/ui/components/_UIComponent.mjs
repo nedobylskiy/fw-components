@@ -46,7 +46,11 @@ class _UIComponent extends EventEmitter3 {
         /** @type {AppPage} */
         this.app = null;
         this._childComponents = [];
-        // this.parent = null;
+        /**
+         * Parent component
+         * @type {null|_UIComponent}
+         */
+         this.parent = null;
     }
 
     /**
@@ -148,6 +152,32 @@ class _UIComponent extends EventEmitter3 {
                 return true;
             }
 
+            //Emit event in parent
+            /* if (method === '^^') {
+                 //console.log('EMIT', event, this.parent)
+                 if (this.parent.emit) {
+                     this.parent.emit(event, ...params);
+                 }
+                 return true;
+             }*/
+
+            //Emit event in parent N levels up
+            if (method.match(/^\^+$/)) {
+                let count = method.length;
+                let lastParent = this;
+                for (let i = 1; i < count; i++) {
+                    if (lastParent.parent) {
+                        lastParent = lastParent.parent;
+                    }
+                }
+                if (lastParent.emit) {
+                    lastParent.emit(event, ...params);
+                }
+
+                return true;
+            }
+
+
             //Call methods if exists
             if (this.parent.methods[method]) {
                 return await this.parent.methods[method](...params);
@@ -161,7 +191,7 @@ class _UIComponent extends EventEmitter3 {
         //Run inline code
         if (this.attrs['#' + event]) {
             let code = this.attrs['#' + event];
-            let method = new Function('return (()=>{' + code + '})()');
+            let method = new Function('return (async ()=>{' + code + '})()');
             return await method.apply(this, params);
         }
     }
@@ -328,6 +358,14 @@ class _UIComponent extends EventEmitter3 {
         return await UIComponents.registerUIComponent(this.name.toLowerCase(), this);
     }
 
+    /**
+     * Check if component is same
+     * @param {_UIComponent} component
+     * @returns {boolean}
+     */
+    same(component) {
+        return component.id === this.id;
+    }
 
 }
 
