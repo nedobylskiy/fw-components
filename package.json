@@ -1,16 +1,16 @@
 {
   "name": "fw-components",
   "version": "1.0.0",
-  "description": "",
+  "description": "FW Components is a set of components for building web applications based on jQuery and Bootstrap",
   "main": "index.mjs",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config webpack.config.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Andrei Nedobylskii <admin@twister-vl.ru>",
+  "license": "GPL-3.0",
   "dependencies": {
     "jquery": "^3.7.1",
     "webpack": "^5.89.0",
