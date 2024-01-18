@@ -17,7 +17,9 @@
   "author": "Andrei Nedobylskii <admin@twister-vl.ru>",
   "license": "GPL-3.0",
   "dependencies": {
-    "jquery": "^3.7.1",
+    "jquery": "^3.7.1"
+  },
+  "devDependencies": {
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   }
