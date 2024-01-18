@@ -1,5 +1,5 @@
 {
-  "name": "fw-components",
+  "name": "@favorito/fw-components",
   "version": "1.0.0",
   "description": "FW Components is a set of components for building web applications based on jQuery and Bootstrap",
   "main": "index.mjs",

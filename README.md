@@ -34,10 +34,10 @@ For webpack see Installation section.
 
     <!-- FWC js file -->
     <script type="module">
-        import AppPage from "../index.mjs";
+        import AppPage from "./index.mjs";
         
         // Or if you use webpack
-        // import AppPage from "fw-components";
+        // import AppPage from "@favorito/fw-components";
 
         //Load main page component
         let app = new AppPage($('#app'));
@@ -51,7 +51,7 @@ For webpack see Installation section.
 ### Installation
 
 ```bash
-npm install fw-components
+npm install @favorito/fw-components
 ```
 
 ## Demos
