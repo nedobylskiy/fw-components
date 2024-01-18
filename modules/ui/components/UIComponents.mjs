@@ -93,6 +93,17 @@ UIComponents.registerUIComponent = async (name, component) => {
 }
 
 /**
+ * Register multiple components class
+ * @param {_UIComponent} components
+ * @returns {Promise<void>}
+ */
+UIComponents.registerUIComponents = async (components = []) => {
+    for (let component of components) {
+        await UIComponents.registerUIComponent(component);
+    }
+}
+
+/**
  * Construct page component code
  * @param {string} type
  * @param {object} options
