@@ -58,6 +58,11 @@ npm install @favorito/fw-components
 
 For more see [demos folder](/demo/)
 
+## Troubleshooting
+
+Webpack kills the ways to use auto loadable componens so you should import and do ``` await UIComponents.registerUIComponent ``` manually.
+
+
 ## Contribution
 
 Feel free to contribute to this project. You can create issues or pull requests.
