@@ -12,7 +12,7 @@
  * @author Andrei Nedobylskii
  */
 
-import {_UIComponent} from "../../../index.mjs";
+import _UIComponent from "./_UIComponent.mjs";
 
 /**
  * Visual UI component abstract
